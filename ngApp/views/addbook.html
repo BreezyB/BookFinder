@@ -1,0 +1,47 @@
+<div class="row">
+<h1 class="lucky">Drop Off A Book</h1>
+<p>All types of books are accepted. But, please only drop off books that are
+  clean and readable. Some highlighting and marks are OK :)
+<br />
+<div class="col-md-4 col-md-offset-4">
+<form class="form-horizontal">
+
+<br />
+<span class='lucky'>Enter your book info:</span>
+<br />
+<br />
+<form class="form-horizontal">
+  	<div class="form-group">
+  		<label for="s1" class="col-md-2">Title:</label>
+  		<div class="col-md-10"> <!-- This is a new div -->
+  			<input type="text" class="form-control" id="s1" ng-model="vm.book.title"  placeholder="Empress">
+  		</div>
+  	</div>
+    <div class="form-group">
+      <label for="s2" class="col-md-2">Author:</label>
+      <div class="col-md-10"> <!-- This is a new div -->
+        <input type="text" class="form-control" id="s2" ng-model="vm.book.author"  placeholder="Karen Miller">
+      </div>
+    </div>
+</form>
+<br />
+<span class='lucky'>Now, pick DropSite:</span>
+<br />
+
+
+
+<br />
+
+	<div class="form-group"> <!-- Message input !-->
+    <select name="selected"  ng-model="vm.book.siteId" multiple>
+      <option ng-repeat="site in vm.sites" ng-value="site._id">{{site.name}} - {{site.street}}, {{site.city}}, {{site.state}} {{site.zip}}</option>
+    </select>
+	</div>
+
+   <!--New div, offset because there is no label -->
+      <button  class="btn btn-primary" ng-click="vm.save();">Add Book to Site!</button>
+
+</form>
+</div>
+
+</div>

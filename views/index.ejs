@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html ng-app="myapp">
+
+<head>
+  <title>myapp</title>
+  <meta charset="utf-8">
+  <base href="/" />
+
+  <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/ngApp/css/site.css"/>
+  <link href="https://fonts.googleapis.com/css?family=Luckiest+Guy" rel="stylesheet">
+</head>
+
+<body>
+  <div class="container">
+    <div class='header lucky'>
+        <h1>Book Finder</h1>
+          <div class="row">
+            <div class="col-xs-3"><a href="/">Home</a></div>
+            <div class="col-xs-3"><a href="/login">Log In</a>/<a href="/register">Register</a></div>
+            <div class="col-xs-3"><a href="/addbook">Drop off a book</a></div>
+            <div class="col-xs-3"><a href="/addsite">Create a New Drop Site</a></div>
+          </div>
+    </div>
+
+
+        <ui-view></ui-view>
+  </div>
+  <script src="https://use.fontawesome.com/4b95e785ab.js"></script>
+  <script src="/bower_components/angular/angular.min.js"></script>
+  <script src="/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+  <script src="/bower_components/angular-resource/angular-resource.min.js"></script>
+  <script src="/bower_components/angular-animate/angular-animate.min.js"></script>
+  <script src="/bower_components/angular-touch/angular-touch.min.js"></script>
+  <script src="/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+
+  <script src="/ngApp/app.js"></script>
+  <script src="/ngApp/controllers/controllers.js"></script>
+  <script src="/ngApp/services/services.js"></script>
+
+</body>
+
+</html>

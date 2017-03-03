@@ -1,0 +1,13 @@
+{{vm.site.name}}
+
+{{vm.site.street}} {{vm.site.city}}, {{vm.site.state}} {{vm.site.zip}}
+
+Books here:
+
+<table class="table table-condensed">
+          <tr ng-repeat="book in vm.books ">
+              <td>{{book.title}}</td>
+              <td>{{site.author}}</td>
+              <td>Pick up this book!</td>
+          </tr>
+  </table>
