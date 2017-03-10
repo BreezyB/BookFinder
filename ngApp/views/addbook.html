@@ -10,6 +10,7 @@
 <span class='lucky'>Enter your book info:</span>
 <br />
 <br />
+<div>
 <form class="form-horizontal">
   	<div class="form-group">
   		<label for="s1" class="col-md-2">Title:</label>
@@ -21,27 +22,25 @@
       <label for="s2" class="col-md-2">Author:</label>
       <div class="col-md-10"> <!-- This is a new div -->
         <input type="text" class="form-control" id="s2" ng-model="vm.book.author"  placeholder="Karen Miller">
-      </div>
+      </div> <br />
     </div>
 </form>
+</div>
 <br />
 <span class='lucky'>Now, pick DropSite:</span>
 <br />
 
-
-
 <br />
 
 	<div class="form-group"> <!-- Message input !-->
-    <select name="selected"  ng-model="vm.book.siteId" multiple>
-      <option ng-repeat="site in vm.sites" ng-value="site._id">{{site.name}} - {{site.street}}, {{site.city}}, {{site.state}} {{site.zip}}</option>
+    <select ng-model="vm.book.site_tag">
+      <option ng-repeat="s in vm.sites" value={{s._id}} >{{s.name}}</option>
     </select>
+    {{vm.book.site_tag}}
 	</div>
-
-   <!--New div, offset because there is no label -->
-      <button  class="btn btn-primary" ng-click="vm.save();">Add Book to Site!</button>
-
-</form>
+  <div class="col-md-10">
+    <button  class="btn btn-primary" ng-click="vm.save();">Add Book to Site!</button>
+  </div>
 </div>
 
 </div>

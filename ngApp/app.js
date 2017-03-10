@@ -14,10 +14,22 @@ var myapp;
             controller: myapp.Controllers.RegisterController,
             controllerAs: 'vm'
         })
+            .state('secret', {
+            url: '/secretregister',
+            templateUrl: '/ngApp/views/secretregister.html',
+            controller: myapp.Controllers.RegisterController,
+            controllerAs: 'vm'
+        })
             .state('home', {
             url: '/',
             templateUrl: '/ngApp/views/home.html',
             controller: myapp.Controllers.HomeController,
+            controllerAs: 'vm'
+        })
+            .state('backoffice', {
+            url: '/backoffice',
+            templateUrl: '/ngApp/views/backoffice.html',
+            controller: myapp.Controllers.BackOfficeController,
             controllerAs: 'vm'
         })
             .state('addsite', {
@@ -38,7 +50,7 @@ var myapp;
         })
             .state('SiteInfo', {
             url: '/sitedetails/:id',
-            templateUrl: '/ngApp/sitedetails.html',
+            templateUrl: '/ngApp/views/sitedetails.html',
             controller: myapp.Controllers.SiteDetailsController,
             controllerAs: 'vm'
         });

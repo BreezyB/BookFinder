@@ -9,12 +9,12 @@ router.post('/AddBook', (req, res, next) => {
   let book:any = new Book();
   book.title = req.body.title;
   book.author = req.body.author;
-  book.siteId = req.body.siteId;
+  book.site_tag = req.body.site_tag;
   book.save(function(err, newBook){
     if(err){
       return next(err);
     }
-    res.json({message: "Thank you for sharing this book!"})
+    res.json({message: "Thank you for sharing this book!", bookId: book._id})
   }).catch((err) => {
     res.status(500);
   });
@@ -31,6 +31,14 @@ router.get('/', (req, res) => {
   })
 });
 
+router.get('/:books', (req, res) => {
+  Book.find({ site_tag: req.params['id'] }).then((books)=> {
+      res.json(books);
+  }).catch((err) => {
+      res.status(500);
+      console.error(err);
+  })
+});
 
 // Get a single sites by id
 router.get('/:id', (req, res) => {

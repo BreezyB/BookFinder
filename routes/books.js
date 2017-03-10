@@ -7,18 +7,26 @@ router.post('/AddBook', function (req, res, next) {
     var book = new book_1.default();
     book.title = req.body.title;
     book.author = req.body.author;
-    book.siteId = req.body.siteId;
+    book.site_tag = req.body.site_tag;
     book.save(function (err, newBook) {
         if (err) {
             return next(err);
         }
-        res.json({ message: "Thank you for sharing this book!" });
+        res.json({ message: "Thank you for sharing this book!", bookId: book._id });
     }).catch(function (err) {
         res.status(500);
     });
 });
 router.get('/', function (req, res) {
     book_1.default.find().then(function (books) {
+        res.json(books);
+    }).catch(function (err) {
+        res.status(500);
+        console.error(err);
+    });
+});
+router.get('/:books', function (req, res) {
+    book_1.default.find({ site_tag: req.params['id'] }).then(function (books) {
         res.json(books);
     }).catch(function (err) {
         res.status(500);

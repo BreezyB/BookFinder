@@ -1,5 +1,6 @@
 import * as express from 'express';
-
+var passport = require('passport');
+import jwt = require('jsonwebtoken');
 import Site from '../models/site';
 let router = express.Router();
 
@@ -11,7 +12,7 @@ router.post('/AddSite', (req, res, next) => {
   site.street = req.body.street;
   site.state = req.body.state;
   site.zip = req.body.state;
-  site.siteSubmitedBy = req.body.siteSubmitedBy
+  site.submitedBy = req.body.submitedBy
   site.save(function(err, newSite){
     if(err){
       return next(err);
@@ -44,13 +45,10 @@ router.get('/:id', (req, res) => {
 // Update existing site
 router.post('/:id', (req, res) => {
   let siteId = req.params.id;
+  let book = req.body;
 
   Site.findById(siteId).then((site) => {
-    site.name = req.body.name;
-    site.street = req.body.street;
-    site.state = req.body.state;
-    site.zip = req.body.state;
-    // save updated animal
+    // save updated drop site
     site.save().then((updatedSite) => {
       res.json(updatedSite);
     }).catch((err) => {
@@ -60,6 +58,7 @@ router.post('/:id', (req, res) => {
     res.sendStatus(404);
   });
 });
+
 
 
 // Delete a site (admin only)

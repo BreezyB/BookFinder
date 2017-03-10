@@ -43,9 +43,10 @@ var myapp;
             function BookService($resource) {
                 this.BookResource = $resource('/bookRoutes/api/:id');
                 this.AddBookResource = $resource('/bookRoutes/api/AddBook');
+                this.FindBooksResource = $resource('/bookRoutes/api/:books');
             }
-            BookService.prototype.get = function (id) {
-                return this.BookResource.get({ id: id });
+            BookService.prototype.listBooks = function (id) {
+                return this.FindBooksResource.query({ id: id });
             };
             BookService.prototype.list = function () {
                 return this.BookResource.query();

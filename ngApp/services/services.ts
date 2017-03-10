@@ -52,9 +52,10 @@ namespace myapp.Services {
   export class BookService {
       private BookResource;
       private AddBookResource;
+      private FindBooksResource;
 
-      public get(id) {
-        return this.BookResource.get({id:id});
+      public listBooks(id) {
+        return this.FindBooksResource.query({id:id});
       }
 
       public list() {
@@ -63,6 +64,7 @@ namespace myapp.Services {
 
       public save(book) {
         return this.AddBookResource.save({id:book._id}, book).$promise;
+
       }
 
       public remove(bookId) {
@@ -72,6 +74,7 @@ namespace myapp.Services {
       constructor($resource) {
         this.BookResource = $resource('/bookRoutes/api/:id');
         this.AddBookResource = $resource('/bookRoutes/api/AddBook');
+        this.FindBooksResource = $resource('/bookRoutes/api/:books');
       }
   }
 

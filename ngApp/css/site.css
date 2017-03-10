@@ -1,7 +1,10 @@
 .header {
     text-align: center;
-   border: 3px solid green;
-
+    height: 200px;
+   background-image: url("http://i.imgur.com/gFU1vpJ.png");
+   background-repeat:no-repeat;
+   background-position:center;
+   background-size: 100%;
 }
 
 .navbar .navbar-nav {
@@ -16,4 +19,9 @@
 
 .lucky {
   font-family: 'Luckiest Guy', cursive;
+}
+
+body {
+  background-image: url("http://i.imgur.com/VSaVKR0.jpg");
+  backgrond-color: purple;
 }

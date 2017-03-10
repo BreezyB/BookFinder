@@ -1,5 +1,7 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var express = require("express");
+var passport = require('passport');
 var site_1 = require("../models/site");
 var router = express.Router();
 router.post('/AddSite', function (req, res, next) {
@@ -8,7 +10,7 @@ router.post('/AddSite', function (req, res, next) {
     site.street = req.body.street;
     site.state = req.body.state;
     site.zip = req.body.state;
-    site.siteSubmitedBy = req.body.siteSubmitedBy;
+    site.submitedBy = req.body.submitedBy;
     site.save(function (err, newSite) {
         if (err) {
             return next(err);
@@ -33,11 +35,8 @@ router.get('/:id', function (req, res) {
 });
 router.post('/:id', function (req, res) {
     var siteId = req.params.id;
+    var book = req.body;
     site_1.default.findById(siteId).then(function (site) {
-        site.name = req.body.name;
-        site.street = req.body.street;
-        site.state = req.body.state;
-        site.zip = req.body.state;
         site.save().then(function (updatedSite) {
             res.json(updatedSite);
         }).catch(function (err) {
@@ -56,5 +55,4 @@ router.delete('/:id', function (req, res) {
         console.log(err);
     });
 });
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = router;
