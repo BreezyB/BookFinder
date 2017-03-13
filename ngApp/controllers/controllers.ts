@@ -3,45 +3,45 @@ namespace myapp.Controllers {
        public logout() {
          localStorage.removeItem('token');
        }
+
+       public
+       public goToAdmin(){
+         if(payload.isAdmin === true){
+           this.$state.go("backoffice");
+         }else {
+           alert("Access Denied");
+         }
+       }
       public sites;
       public books;
 
-      constructor (private siteService, private bookService) {
+      public remove(id) {
+        this.bookService.remove(id).then(() => {
+          this.books = this.bookService.list();
+        });
+      }
+      constructor (private siteService, private bookService, private $state) {
         let token = window.localStorage['token'];
         let payload = JSON.parse(window.atob(token.split('.')[1]));
         this.sites = this.siteService.list();
         this.books = this.bookService.list();
-          console.log(this.books);
-          console.log(this.sites);
-          console.log(payload);
       }
     }
 
     export class BackOfficeController {
-       public logout() {
-         localStorage.removeItem('token');
-       }
-       public removeBook(id){
-         this.bookService.remove(id).then(()=> {
-           this.$state.go("backoffice");
-         })
-       }
+
       public sites;
       public books;
-      public isAdmin;
+      public users;
 
-      constructor (private siteService, private bookService, private $state) {
+      constructor (private siteService, private bookService, private $state, private userService) {
         let token = window.localStorage['token'];
         let payload = JSON.parse(window.atob(token.split('.')[1]));
-        payload.isAdmin = this.isAdmin;
         this.sites = this.siteService.list();
         this.books = this.bookService.list();
-          console.log(this.books);
-          console.log(this.sites);
+        this.users = this.userService.list();
       }
     }
-
-
 
 
 
@@ -55,16 +55,36 @@ namespace myapp.Controllers {
       }
 
       public login() {
-
+        this.userInfo.isAdmin= false;
         this.userService.loginUser(this.userInfo).then((data) => {
           this.$window.localStorage.setItem("token", JSON.stringify(data.token));
-            if (this.userInfo.isAdmin) {
-              this.$state.go('backoffice')
-            }
-            else {
               this.$state.go('home');
-            }
+          alert('login successful');
+        })
+      }
 
+      public logout() {
+        this.$window.localStorage.removeItem('token');
+      }
+
+      public constructor(
+        private userService, public $window, public $state) {
+      }
+    }
+
+    export class AdminLoginController {
+      public userInfo
+
+
+      public getToken() {
+        return this.$window.localStorage['token'];
+      }
+
+      public login() {
+        this.userInfo.isAdmin = true;
+        this.userService.loginUser(this.userInfo).then((data) => {
+          this.$window.localStorage.setItem("token", JSON.stringify(data.token));
+              this.$state.go('backoffice');
           alert('login successful');
         })
       }
@@ -95,8 +115,8 @@ namespace myapp.Controllers {
     export class RegisterController2 {
       public user
       public signup() {
-        this.user.isAdmin = true;
-        
+
+
         this.userService.registerUser(this.user).then(() => {
           alert('signup successful, please login');
           this.$state.go('login');
@@ -152,16 +172,34 @@ namespace myapp.Controllers {
     export class SiteDetailsController {
       public books;
       public site;
-
+      public remove(id) {
+        this.bookService.remove(id).then(() => {
+          this.books = this.bookService.list();
+        });
+      }
 
 
       constructor( private $stateParams, private bookService, private siteService, private $state ){
         let siteId = $stateParams['id'];
         this.books = this.bookService.listBooks(siteId);
-        this.site = this.siteService.get(siteId);
+        //this.site = this.siteService.get(siteId);
         console.log(this.books);
       }
     }
 
+    export class EditBookController {
+      public book;
 
+      public update(id) {
+        this.bookService.save(this.book, id).then(() => {
+          this.$state.go('home');
+        });
+      }
+
+      constructor(private bookService, private $state, private $stateParams
+      ) {
+        let bookId = $stateParams['id'];
+        this.book = bookService.get(bookId);
+      }
+    }
 }

@@ -25,17 +25,13 @@ router.get('/', function (req, res) {
         console.error(err);
     });
 });
-router.get('/:books', function (req, res) {
+router.get('/:id', function (req, res) {
+    console.log(req.params['id']);
     book_1.default.find({ site_tag: req.params['id'] }).then(function (books) {
         res.json(books);
     }).catch(function (err) {
         res.status(500);
         console.error(err);
-    });
-});
-router.get('/:id', function (req, res) {
-    book_1.default.findById(req.params['id']).then(function (book) {
-        res.json(book);
     });
 });
 router.post('/:id', function (req, res) {

@@ -1,3 +1,10 @@
+let token = window.localStorage['token'];
+let payload;
+if(token){
+  payload = JSON.parse(window.atob(token.split('.')[1]));
+};
+
+
 namespace myapp {
 
     angular.module('myapp', ['ui.router', 'ngResource', 'ui.bootstrap']).config((
@@ -13,6 +20,12 @@ namespace myapp {
                 controller: myapp.Controllers.LoginController,
                 controllerAs: 'vm'
             })
+            .state('loginadmin', {
+                url: '/loginadmin',
+                templateUrl: '/ngApp/views/loginadmin.html',
+                controller: myapp.Controllers.AdminLoginController,
+                controllerAs: 'vm'
+              })
             .state('register', {
                 url: '/register',
                 templateUrl: '/ngApp/views/register.html',
@@ -32,11 +45,11 @@ namespace myapp {
                 controllerAs: 'vm'
             })
             .state('backoffice', {
-                url: '/backoffice',
+                url: '/',
                 templateUrl: '/ngApp/views/backoffice.html',
                 controller: myapp.Controllers.BackOfficeController,
                 controllerAs: 'vm'
-              })
+            })
             .state('addsite', {
                 url: '/addsite',
                 templateUrl: '/ngApp/views/addsite.html',
@@ -59,6 +72,12 @@ namespace myapp {
               controller: myapp.Controllers.SiteDetailsController,
               controllerAs: 'vm'
             })
+            .state('editbook', {
+                url: '/editbook/:id',
+                templateUrl: '/ngApp/views/editbook.html',
+                controller: myapp.Controllers.EditBookController,
+                controllerAs: 'vm'
+              })
 
 
         // Handle request for non-existent route

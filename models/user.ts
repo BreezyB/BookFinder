@@ -6,8 +6,7 @@ let UserSchema = new mongoose.Schema({
   username : {type:String, lowercase: true, unique:true},
   email : {type:String, lowercase: true, unique:true},
   passwordHash : String,
-  salt: String,
-  isAdmin: Boolean
+  salt: String
 });
 
 UserSchema.method("setPassword", function(password){
@@ -20,12 +19,12 @@ UserSchema.method("validatePassword", function(password){
   return (hash === this.passwordHash);
 });
 
-UserSchema.method("generateJWT", function(){
+UserSchema.method("generateJWT", function(role){
   return jwt.sign({
     id:this._id,
     username: this.username,
     email: this.email,
-    isAdmin: this.isAdmin
+    isAdmin: role
   }, 'SecretKey');
 });
 

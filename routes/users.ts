@@ -40,4 +40,13 @@ router.post('/Login/Local',(req, res, next) => {
   })(req, res, next);
 });
 
+router.get('/', (req, res) => {
+  User.find().then((users)=> {
+      res.json(users);
+  }).catch((err) => {
+      res.status(500);
+      console.error(err);
+  })
+});
+
 export default router;

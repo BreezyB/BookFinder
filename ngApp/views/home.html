@@ -1,4 +1,4 @@
-<div  ng-show-auth="true">
+<div>
 
 <br />
 <br />
@@ -24,8 +24,14 @@
                 <td>{{book.author}}</td>
                 <td>{{book.title}}</td>
                 <td><a href=""Browse Drop Site</a></td>
+                <td>  <a href="/editbook/{{book._id}}">edit</a></td>
+  <td>  <a href="#" ng-click="vm.remove(book._id)">delete</a></td>
             </tr>
         </table>
     </div>
+</div>
+<div>
+  <div class="col-xs-3"><a href="/loginadmin">Admin Login</a></div>
+  <div class="col-xs-3"><a ng-click="vm.goToAdmin()">Backoffice</a></div>
 </div>
 </div>

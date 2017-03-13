@@ -18,20 +18,26 @@ router.post('/Register', function (req, res, next) {
         res.status(500);
     });
 });
-
-router.post('/Login/Local',(req, res, next) => {
-
-  if(!req.body.username || !req.body.password){
-    res.status(400).json({message:"Please fill in all fields."});
-  }
-  passport.authenticate('local', function(err, user, info){
-    if(err){
-      return next(err);
+router.post('/Login/Local', function (req, res, next) {
+    if (!req.body.username || !req.body.password) {
+        res.status(400).json({ message: "Please fill in all fields." });
     }
-    if(user){
-      return res.json({token: user.generateJWT(req.body.isAdmin)});
-    }
-    return res.status(400).send(info);
-  })(req, res, next);
+    passport.authenticate('local', function (err, user, info) {
+        if (err) {
+            return next(err);
+        }
+        if (user) {
+            return res.json({ token: user.generateJWT() });
+        }
+        return res.status(400).send(info);
+    })(req, res, next);
+});
+router.get('/', function (req, res) {
+    user_1.default.find().then(function (users) {
+        res.json(users);
+    }).catch(function (err) {
+        res.status(500);
+        console.error(err);
+    });
 });
 exports.default = router;

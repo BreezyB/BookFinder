@@ -15,6 +15,7 @@ Books here:
           <tr ng-repeat="book in vm.books ">
               <td>{{book.title}}</td>
               <td>{{site.author}}</td>
-              <td>Pick up this book!</td>
+              <td><a ng-click="vm.remove(book._id)">Pick up this book!</a></td>
+
           </tr>
   </table>

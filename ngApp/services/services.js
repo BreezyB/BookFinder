@@ -7,12 +7,16 @@ var myapp;
                 this.$resource = $resource;
                 this.LoginResource = this.$resource('/userRoutes/api/Login/Local');
                 this.SignUpResource = this.$resource('/userRoutes/api/Register');
+                this.UserResource = $resource('/userRoutes/api/:id');
             }
             UserService.prototype.registerUser = function (userObj) {
                 return this.SignUpResource.save(userObj).$promise;
             };
             UserService.prototype.loginUser = function (userInfo) {
                 return this.LoginResource.save(userInfo).$promise;
+            };
+            UserService.prototype.list = function () {
+                return this.UserResource.query();
             };
             return UserService;
         }());
@@ -43,15 +47,17 @@ var myapp;
             function BookService($resource) {
                 this.BookResource = $resource('/bookRoutes/api/:id');
                 this.AddBookResource = $resource('/bookRoutes/api/AddBook');
-                this.FindBooksResource = $resource('/bookRoutes/api/:books');
             }
+            BookService.prototype.get = function (id) {
+                return this.BookResource.get({ id: id });
+            };
             BookService.prototype.listBooks = function (id) {
-                return this.FindBooksResource.query({ id: id });
+                return this.BookResource.query({ id: id });
             };
             BookService.prototype.list = function () {
                 return this.BookResource.query();
             };
-            BookService.prototype.save = function (book) {
+            BookService.prototype.update = function (book, id) {
                 return this.AddBookResource.save({ id: book._id }, book).$promise;
             };
             BookService.prototype.remove = function (bookId) {

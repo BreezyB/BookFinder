@@ -3,45 +3,47 @@ var myapp;
     var Controllers;
     (function (Controllers) {
         var HomeController = (function () {
-            function HomeController(siteService, bookService) {
-                this.siteService = siteService;
-                this.bookService = bookService;
-                var token = window.localStorage['token'];
-                var payload = JSON.parse(window.atob(token.split('.')[1]));
-                this.sites = this.siteService.list();
-                this.books = this.bookService.list();
-                console.log(this.books);
-                console.log(this.sites);
-                console.log(payload);
-            }
-            HomeController.prototype.logout = function () {
-                localStorage.removeItem('token');
-            };
-            return HomeController;
-        }());
-        Controllers.HomeController = HomeController;
-        var BackOfficeController = (function () {
-            function BackOfficeController(siteService, bookService, $state) {
+            function HomeController(siteService, bookService, $state) {
                 this.siteService = siteService;
                 this.bookService = bookService;
                 this.$state = $state;
                 var token = window.localStorage['token'];
                 var payload = JSON.parse(window.atob(token.split('.')[1]));
-                payload.isAdmin = this.isAdmin;
                 this.sites = this.siteService.list();
                 this.books = this.bookService.list();
-                console.log(this.books);
-                console.log(this.sites);
             }
-            BackOfficeController.prototype.logout = function () {
+            HomeController.prototype.logout = function () {
                 localStorage.removeItem('token');
             };
-            BackOfficeController.prototype.removeBook = function (id) {
+            HomeController.prototype.goToAdmin = function () {
+                if (payload.isAdmin === true) {
+                    this.$state.go("backoffice");
+                }
+                else {
+                    alert("Access Denied");
+                }
+            };
+            HomeController.prototype.remove = function (id) {
                 var _this = this;
                 this.bookService.remove(id).then(function () {
-                    _this.$state.go("backoffice");
+                    _this.books = _this.bookService.list();
                 });
             };
+            return HomeController;
+        }());
+        Controllers.HomeController = HomeController;
+        var BackOfficeController = (function () {
+            function BackOfficeController(siteService, bookService, $state, userService) {
+                this.siteService = siteService;
+                this.bookService = bookService;
+                this.$state = $state;
+                this.userService = userService;
+                var token = window.localStorage['token'];
+                var payload = JSON.parse(window.atob(token.split('.')[1]));
+                this.sites = this.siteService.list();
+                this.books = this.bookService.list();
+                this.users = this.userService.list();
+            }
             return BackOfficeController;
         }());
         Controllers.BackOfficeController = BackOfficeController;
@@ -56,14 +58,10 @@ var myapp;
             };
             LoginController.prototype.login = function () {
                 var _this = this;
+                this.userInfo.isAdmin = false;
                 this.userService.loginUser(this.userInfo).then(function (data) {
                     _this.$window.localStorage.setItem("token", JSON.stringify(data.token));
-                    if (_this.userInfo.isAdmin) {
-                        _this.$state.go('backoffice');
-                    }
-                    else {
-                        _this.$state.go('home');
-                    }
+                    _this.$state.go('home');
                     alert('login successful');
                 });
             };
@@ -73,6 +71,30 @@ var myapp;
             return LoginController;
         }());
         Controllers.LoginController = LoginController;
+        var AdminLoginController = (function () {
+            function AdminLoginController(userService, $window, $state) {
+                this.userService = userService;
+                this.$window = $window;
+                this.$state = $state;
+            }
+            AdminLoginController.prototype.getToken = function () {
+                return this.$window.localStorage['token'];
+            };
+            AdminLoginController.prototype.login = function () {
+                var _this = this;
+                this.userInfo.isAdmin = true;
+                this.userService.loginUser(this.userInfo).then(function (data) {
+                    _this.$window.localStorage.setItem("token", JSON.stringify(data.token));
+                    _this.$state.go('backoffice');
+                    alert('login successful');
+                });
+            };
+            AdminLoginController.prototype.logout = function () {
+                this.$window.localStorage.removeItem('token');
+            };
+            return AdminLoginController;
+        }());
+        Controllers.AdminLoginController = AdminLoginController;
         var RegisterController = (function () {
             function RegisterController(userService, $state) {
                 this.userService = userService;
@@ -96,7 +118,6 @@ var myapp;
             }
             RegisterController2.prototype.signup = function () {
                 var _this = this;
-                this.user.isAdmin = true;
                 this.userService.registerUser(this.user).then(function () {
                     alert('signup successful, please login');
                     _this.$state.go('login');
@@ -160,11 +181,33 @@ var myapp;
                 this.$state = $state;
                 var siteId = $stateParams['id'];
                 this.books = this.bookService.listBooks(siteId);
-                this.site = this.siteService.get(siteId);
                 console.log(this.books);
             }
+            SiteDetailsController.prototype.remove = function (id) {
+                var _this = this;
+                this.bookService.remove(id).then(function () {
+                    _this.books = _this.bookService.list();
+                });
+            };
             return SiteDetailsController;
         }());
         Controllers.SiteDetailsController = SiteDetailsController;
+        var EditBookController = (function () {
+            function EditBookController(bookService, $state, $stateParams) {
+                this.bookService = bookService;
+                this.$state = $state;
+                this.$stateParams = $stateParams;
+                var bookId = $stateParams['id'];
+                this.book = bookService.get(bookId);
+            }
+            EditBookController.prototype.update = function (id) {
+                var _this = this;
+                this.bookService.save(this.book, id).then(function () {
+                    _this.$state.go('home');
+                });
+            };
+            return EditBookController;
+        }());
+        Controllers.EditBookController = EditBookController;
     })(Controllers = myapp.Controllers || (myapp.Controllers = {}));
 })(myapp || (myapp = {}));

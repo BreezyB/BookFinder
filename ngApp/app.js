@@ -1,3 +1,9 @@
+var token = window.localStorage['token'];
+var payload;
+if (token) {
+    payload = JSON.parse(window.atob(token.split('.')[1]));
+}
+;
 var myapp;
 (function (myapp) {
     angular.module('myapp', ['ui.router', 'ngResource', 'ui.bootstrap']).config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
@@ -6,6 +12,12 @@ var myapp;
             url: '/login',
             templateUrl: '/ngApp/views/login.html',
             controller: myapp.Controllers.LoginController,
+            controllerAs: 'vm'
+        })
+            .state('loginadmin', {
+            url: '/loginadmin',
+            templateUrl: '/ngApp/views/loginadmin.html',
+            controller: myapp.Controllers.AdminLoginController,
             controllerAs: 'vm'
         })
             .state('register', {
@@ -27,7 +39,7 @@ var myapp;
             controllerAs: 'vm'
         })
             .state('backoffice', {
-            url: '/backoffice',
+            url: '/',
             templateUrl: '/ngApp/views/backoffice.html',
             controller: myapp.Controllers.BackOfficeController,
             controllerAs: 'vm'
@@ -52,6 +64,12 @@ var myapp;
             url: '/sitedetails/:id',
             templateUrl: '/ngApp/views/sitedetails.html',
             controller: myapp.Controllers.SiteDetailsController,
+            controllerAs: 'vm'
+        })
+            .state('editbook', {
+            url: '/editbook/:id',
+            templateUrl: '/ngApp/views/editbook.html',
+            controller: myapp.Controllers.EditBookController,
             controllerAs: 'vm'
         });
         $urlRouterProvider.otherwise('/notFound');

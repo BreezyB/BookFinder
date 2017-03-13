@@ -1,7 +1,8 @@
 namespace myapp.Services {
   export class UserService {
-    public LoginResource
-    public SignUpResource
+    public LoginResource;
+    public SignUpResource;
+    public UserResource;
 
     public registerUser(userObj) {
       return this.SignUpResource.save(userObj).$promise;
@@ -11,9 +12,16 @@ namespace myapp.Services {
       return this.LoginResource.save(userInfo).$promise;
     }
 
+    public list() {
+      return this.UserResource.query();
+    }
+
+
     constructor(private $resource:ng.resource.IResourceService){
       this.LoginResource = this.$resource('/userRoutes/api/Login/Local');
       this.SignUpResource = this.$resource('/userRoutes/api/Register');
+      this.UserResource = $resource('/userRoutes/api/:id');
+
     }
 
   }
@@ -52,20 +60,23 @@ namespace myapp.Services {
   export class BookService {
       private BookResource;
       private AddBookResource;
-      private FindBooksResource;
+
+      public get(id) {
+        return this.BookResource.get({id:id});
+      }
 
       public listBooks(id) {
-        return this.FindBooksResource.query({id:id});
+        return this.BookResource.query({id:id});
       }
 
       public list() {
         return this.BookResource.query();
       }
 
-      public save(book) {
+      public update(book, id) {
         return this.AddBookResource.save({id:book._id}, book).$promise;
-
       }
+
 
       public remove(bookId) {
         return this.BookResource.remove({id:bookId}).$promise;
@@ -74,7 +85,6 @@ namespace myapp.Services {
       constructor($resource) {
         this.BookResource = $resource('/bookRoutes/api/:id');
         this.AddBookResource = $resource('/bookRoutes/api/AddBook');
-        this.FindBooksResource = $resource('/bookRoutes/api/:books');
       }
   }
 

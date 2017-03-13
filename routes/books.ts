@@ -31,8 +31,9 @@ router.get('/', (req, res) => {
   })
 });
 
-router.get('/:books', (req, res) => {
-  Book.find({ site_tag: req.params['id'] }).then((books)=> {
+router.get('/:id', (req, res) => {
+  console.log(req.params['id']);
+  Book.find({site_tag: req.params['id']}).then((books)=> {
       res.json(books);
   }).catch((err) => {
       res.status(500);
@@ -40,12 +41,6 @@ router.get('/:books', (req, res) => {
   })
 });
 
-// Get a single sites by id
-router.get('/:id', (req, res) => {
-  Book.findById(req.params['id']).then((book) => {
-    res.json(book);
-  });
-});
 
 // Update existing site
 router.post('/:id', (req, res) => {
