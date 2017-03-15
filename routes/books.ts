@@ -43,10 +43,11 @@ router.get('/:id', (req, res) => {
 
 
 // Update existing site
-router.post('/:id', (req, res) => {
-  let bookId = req.params.id;
-
-  Book.findById(bookId).then((book) => {
+router.post('/', (req, res) => {
+  let bookId = req.body._id;
+console.log(bookId);
+  Book.findOne({_id: bookId}).then((book) => {
+    console.log(book);
     book.title = req.body.title;
     book.author = req.body.author;
     // save updated animal

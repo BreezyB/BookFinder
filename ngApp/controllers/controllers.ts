@@ -189,17 +189,18 @@ namespace myapp.Controllers {
 
     export class EditBookController {
       public book;
-
-      public update(id) {
-        this.bookService.save(this.book, id).then(() => {
+      public bookId;
+      public update() {
+        this.book._id = this.bookId;
+        this.bookService.update(this.book).then(() => {
           this.$state.go('home');
         });
       }
 
       constructor(private bookService, private $state, private $stateParams
       ) {
-        let bookId = $stateParams['id'];
-        this.book = bookService.get(bookId);
+        this.bookId = $stateParams['id'];
+        //this.book = bookService.get(bookId);
       }
     }
 }

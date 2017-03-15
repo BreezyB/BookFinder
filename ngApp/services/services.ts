@@ -73,11 +73,13 @@ namespace myapp.Services {
         return this.BookResource.query();
       }
 
-      public update(book, id) {
-        return this.AddBookResource.save({id:book._id}, book).$promise;
+      public save(book) {
+        return this.AddBookResource.save(book).$promise;
       }
 
-
+      public update(book){
+        return this.BookResource.save(book).$promise;
+      }
       public remove(bookId) {
         return this.BookResource.remove({id:bookId}).$promise;
       }

@@ -57,8 +57,11 @@ var myapp;
             BookService.prototype.list = function () {
                 return this.BookResource.query();
             };
-            BookService.prototype.update = function (book, id) {
-                return this.AddBookResource.save({ id: book._id }, book).$promise;
+            BookService.prototype.save = function (book) {
+                return this.AddBookResource.save(book).$promise;
+            };
+            BookService.prototype.update = function (book) {
+                return this.BookResource.save(book).$promise;
             };
             BookService.prototype.remove = function (bookId) {
                 return this.BookResource.remove({ id: bookId }).$promise;

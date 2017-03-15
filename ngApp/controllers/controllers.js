@@ -197,12 +197,12 @@ var myapp;
                 this.bookService = bookService;
                 this.$state = $state;
                 this.$stateParams = $stateParams;
-                var bookId = $stateParams['id'];
-                this.book = bookService.get(bookId);
+                this.bookId = $stateParams['id'];
             }
-            EditBookController.prototype.update = function (id) {
+            EditBookController.prototype.update = function () {
                 var _this = this;
-                this.bookService.save(this.book, id).then(function () {
+                this.book._id = this.bookId;
+                this.bookService.update(this.book).then(function () {
                     _this.$state.go('home');
                 });
             };

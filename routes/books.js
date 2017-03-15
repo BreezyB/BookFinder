@@ -34,9 +34,11 @@ router.get('/:id', function (req, res) {
         console.error(err);
     });
 });
-router.post('/:id', function (req, res) {
-    var bookId = req.params.id;
-    book_1.default.findById(bookId).then(function (book) {
+router.post('/', function (req, res) {
+    var bookId = req.body._id;
+    console.log(bookId);
+    book_1.default.findOne({ _id: bookId }).then(function (book) {
+        console.log(book);
         book.title = req.body.title;
         book.author = req.body.author;
         book.save().then(function (updatedBook) {

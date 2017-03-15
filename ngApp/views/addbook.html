@@ -36,7 +36,6 @@
     <select ng-model="vm.book.site_tag">
       <option ng-repeat="s in vm.sites" value={{s._id}} >{{s.name}}</option>
     </select>
-    {{vm.book.site_tag}}
 	</div>
   <div class="col-md-10">
     <button  class="btn btn-primary" ng-click="vm.save();">Add Book to Site!</button>
